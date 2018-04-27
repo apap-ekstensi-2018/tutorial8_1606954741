@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<script type="text/javascript" th:src="@{/js/jquery-1.12.4.js}"></script>
+<title>Index</title>
+</head>
+<body>
+	<h2>Welcome</h2>
+	<a href="/login">Login</a><BR>
+	<a th:if="${#httpServletRequest.isUserInRole('ADMIN')}" href="/student/viewall">View All Student</a><br/>
+	<label th:if="${#httpServletRequest.isUserInRole('USER')}">View student By NPM</label><BR>
+	<form id="myForm" th:if="${#httpServletRequest.isUserInRole('USER')}" th:action="@{/student/view/}" method="POST">
+		<input type="text" name="npm" id="npm" placeholder="Please input NPM"/>
+		<button type="submit" id="search">Search</button>
+	</form>
+</body>
+
+<script th:inline="javascript">
+$(document).ready(function() {
+	var $form = $("#myForm");
+	var $idField = $("#npm");
+	
+	console.log("test");
+	$form.submit( function( event ) {
+	  $form.attr( 'action',  $form.attr('action') + $idField.val() );
+
+	  $idField.prop( "disabled", true );
+
+	  return;
+	});
+} );
+</script>
+</html>
